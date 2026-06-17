@@ -4,7 +4,6 @@ import requests
 import os
 import streamlit as st
 from langchain_groq import ChatGroq
-from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_core.tools import tool
 from langgraph.prebuilt import create_react_agent
 from langchain_core.messages import (
@@ -95,13 +94,22 @@ Section 80E: full interest on education loan, no limit, 8 years.
 HRA / 80GG: up to ₹60,000/year for non-salaried rent payers."""
 
 # ── TOOLS ────────────────────────────────────────────────
-web_search = DuckDuckGoSearchRun()
+
+@tool
+def web_search(query: str) -> str:
+    """Search the web for up-to-date general knowledge, current events, and financial tax updates."""
+    try:
+        from langchain_community.utilities import DuckDuckGoSearchAPIWrapper
+        return DuckDuckGoSearchAPIWrapper().run(query)
+    except Exception as e:
+        return f"Search engine exception: {e}"
 
 @tool
 def CAlocator(city: str) -> str:
     """Find corporate tax firms and nearby expert Chartered Accountants based on location."""
     try:
-        return web_search.run(f"Chartered Accountant firm office in {city} contact phone details")
+        from langchain_community.utilities import DuckDuckGoSearchAPIWrapper
+        return DuckDuckGoSearchAPIWrapper().run(f"Chartered Accountant firm office in {city} contact phone details")
     except Exception as e:
         return f"Web search constraint: {e}"
 
