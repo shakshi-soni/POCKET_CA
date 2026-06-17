@@ -1,14 +1,19 @@
 import json
-import os
 import datetime
-import chromadb
+import requests
+import os
 import streamlit as st
 from langchain_groq import ChatGroq
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_core.tools import tool
 from langgraph.prebuilt import create_react_agent
-from langchain_core.messages import HumanMessage, SystemMessage, AIMessage,messages_from_dict, messages_to_dict
-
+from langchain_core.messages import (
+    messages_from_dict,
+    messages_to_dict,
+    SystemMessage,
+    HumanMessage,
+    AIMessage
+)
 
 # ── STREAMLIT PAGE CONFIG ────────────────────────────────
 st.set_page_config(
@@ -35,11 +40,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Secure API Key configuration
-if "GROQ_API_KEY" in st.secrets:
-    GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
-else:
-    GROQ_API_KEY = "YOUR_GROQ_API_KEY"
+# Direct configuration without if/else blocks
+GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
 
 # ── SYSTEM PROMPT ────────────────────────────────────────
 SYSTEM_PROMPT = """You are the Pocket CA Agent, a highly precise, reliable, and brutally honest AI financial assistant.
@@ -75,10 +77,7 @@ def trim_message(hist, max_message=10):
     recent_msg = [msg for msg in hist if not isinstance(msg, SystemMessage)][-max_message:]
     return sys_msg + recent_msg
 
-
-chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.get_or_create_collection(name="savetax_knowledge")
-
+# ── STATIC TAX KNOWLEDGE BASE ────────────────────────────
 TAX_KNOWLEDGE = """🛡️ Section 80C (Limit: ₹1,50,000/year):
 EPF, PPF, ELSS, NSC, SSY, NPS, Life Insurance Premium, Children Tuition Fees, Home Loan Principal, Tax-Saving FDs.
 
@@ -94,9 +93,6 @@ Section 80E: full interest on education loan, no limit, 8 years.
 80TTA: ₹10,000 on savings account interest (₹50,000 for seniors under 80TTB).
 80G: 50-100% on donations to registered NGOs.
 HRA / 80GG: up to ₹60,000/year for non-salaried rent payers."""
-
-if collection.count() == 0:
-    collection.add(documents=[TAX_KNOWLEDGE], ids=["0"])
 
 # ── TOOLS ────────────────────────────────────────────────
 web_search = DuckDuckGoSearchRun()
@@ -168,13 +164,8 @@ def gst_calculator(base_amount: float, gst_rate_pct: float, is_inter_state: bool
 
 @tool
 def save_tax(question: str) -> str:
-    """Search the RAG knowledge base for Indian tax saving information."""
-    try:
-        results = collection.query(query_texts=[question], n_results=1)
-        docs = results.get("documents", [[]])
-        return "\n".join(docs[0]) if docs and docs[0] else "No tax parameters indexed locally."
-    except Exception as e:
-        return f"RAG error: {e}"
+    """Search the knowledge base for Indian tax saving information."""
+    return TAX_KNOWLEDGE
 
 # ── ✅ CACHED AGENT SETUP ─────────────────────────────────
 @st.cache_resource
@@ -198,7 +189,7 @@ if "display_messages" not in st.session_state:
 if "prefill" not in st.session_state:
     st.session_state.prefill = ""
 
-# ── 💡 SIDEBAR INTERFACE (YOUR CLEAN DESIGN) ──────────────
+# ── SIDEBAR INTERFACE ────────────────────────────────────
 with st.sidebar:
     st.markdown("## 💼 PocketCA")
     st.markdown("---")
@@ -220,9 +211,9 @@ with st.sidebar:
         st.rerun()
 
     st.markdown("---")
-    st.caption("Built with LangGraph + Groq + ChromaDB + Streamlit")
+    st.caption("Built with LangGraph + Groq + Streamlit")
 
-# ── 💡 MAIN APPLICATION INTERFACE (CORRECT INDENTATION) ───
+# ── MAIN APPLICATION INTERFACE ───────────────────────────
 st.markdown("# 💼 PocketCA")
 st.markdown("Your AI Chartered Accountant — GST, Tax Planning, Invoices & Financial Guidance.")
 st.markdown("---")
@@ -284,5 +275,6 @@ if user_msg:
                 save_memory(st.session_state.chat_history)
             except Exception as e:
                 st.error(f"Execution Error: {e}")
-                st.session_state.chat_history.pop()
+                if st.session_state.chat_history:
+                    st.session_state.chat_history.pop()
     st.rerun()
