@@ -1,0 +1,14 @@
+langchain
+langgraph
+langchain-prebuilt
+langchain-community
+langchain-core
+langchain-groq
+groq
+chromadb
+duckduckgo-search
+ddgs
+requests
+streamlit
+reportlab
+python-dotenv
