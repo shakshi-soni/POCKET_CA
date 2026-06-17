@@ -1,7 +1,10 @@
+import os
+# Fix protobuf descriptor compilation mismatch before importing packages
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+
 import json
 import datetime
 import requests
-import os
 import streamlit as st
 import chromadb
 from langchain_groq import ChatGroq
@@ -15,8 +18,6 @@ from langchain_core.messages import (
     HumanMessage,
     AIMessage
 )
-
-os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 
 # ── STREAMLIT PAGE CONFIG ────────────────────────────────
 st.set_page_config(
