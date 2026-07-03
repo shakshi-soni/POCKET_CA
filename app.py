@@ -197,15 +197,12 @@ def generate_invoice(invoice_no, company_name, client_name, client_phone, client
     c = canvas.Canvas(filename, pagesize=A4)
     width, height = A4
 
-    # Crisp minimalist layout mapping
     c.setFillColor(colors.white)
     c.rect(0, 0, width, height, fill=1, stroke=0)
     
-    # Premium Corporate Side Strip Design
     c.setFillColor(colors.HexColor('#0f172a'))
     c.rect(0, 0, 30, height, fill=1, stroke=0)
     
-    # Header Info Setup
     c.setFillColor(colors.HexColor('#0f172a'))
     c.setFont("Helvetica-Bold", 28)
     c.drawString(60, height - 70, "INVOICE")
@@ -217,12 +214,10 @@ def generate_invoice(invoice_no, company_name, client_name, client_phone, client
     c.drawRightString(width - 50, height - 72, f"Date Issued: {datetime.date.today().strftime('%d %B, %Y')}")
     c.drawRightString(width - 50, height - 86, f"Contact: {client_phone}")
 
-    # Separator Line
     c.setStrokeColor(colors.HexColor('#cbd5e1'))
     c.setLineWidth(1)
     c.line(60, height - 110, width - 50, height - 110)
 
-    # Client / Meta Split Block
     c.setFillColor(colors.HexColor('#0f172a'))
     c.setFont("Helvetica-Bold", 10)
     c.drawString(60, height - 145, "BILL TO:")
@@ -237,7 +232,6 @@ def generate_invoice(invoice_no, company_name, client_name, client_phone, client
     c.setFillColor(colors.HexColor('#64748b'))
     c.drawRightString(width - 50, height - 162, "Status: Regulated Invoice Generated")
 
-    # Table Architecture Definition
     table_top = height - 240
     c.setFillColor(colors.HexColor('#0f172a'))
     c.rect(60, table_top, width - 110, 24, fill=1, stroke=0)
@@ -272,7 +266,6 @@ def generate_invoice(invoice_no, company_name, client_name, client_phone, client
         c.line(60, row_y - 6, width - 50, row_y - 6)
         row_y -= 22
 
-    # Math Computation Positioning
     row_y -= 15
     c.setFont("Helvetica-Bold", 11)
     c.setFillColor(colors.HexColor('#0f172a'))
@@ -281,7 +274,6 @@ def generate_invoice(invoice_no, company_name, client_name, client_phone, client
     final_aggregate = sum(f["price"] * f["qty"] for f in items)
     c.drawRightString(width - 65, row_y, f"Rs.{final_aggregate:,.2f}")
 
-    # Premium Footer Block
     pay_y = row_y - 70
     c.setFillColor(colors.HexColor('#f8fafc'))
     c.rect(60, pay_y - 35, width - 110, 50, fill=1, stroke=0)
@@ -384,19 +376,19 @@ with st.sidebar:
     
     st.markdown(f"""
         <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:15px; border-radius:14px; margin-bottom:12px;">
-            <div style="color:#64748b; font-size:10px; font-weight:700; text-transform:uppercase;">Model Infrastructure</div>
-            <div style="color:#ffffff; font-size:14px; font-weight:700; margin-top:2px;">ChatGroq Llama-3.1</div>
+            <div style="color:#64748b; font-size:10px; font-weight:700; text-transform:uppercase;">Computational Engine</div>
+            <div style="color:#ffffff; font-size:14px; font-weight:700; margin-top:2px;">Groq Llama-3.1</div>
         </div>
         <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:15px; border-radius:14px; margin-bottom:12px;">
-            <div style="color:#64748b; font-size:10px; font-weight:700; text-transform:uppercase;">Vector Index Status</div>
+            <div style="color:#64748b; font-size:10px; font-weight:700; text-transform:uppercase;">Knowledge Base Base</div>
             <div style="color:{'#34d399' if vectorstore else '#f43f5e'}; font-size:14px; font-weight:700; margin-top:2px;">
-                {'ChromaDB Core Loaded' if vectorstore else 'ChromaDB Local Offline'}
+                {'ChromaDB Store Active' if vectorstore else 'ChromaDB Local Offline'}
             </div>
         </div>
         <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:15px; border-radius:14px; margin-bottom:20px;">
-            <div style="color:#64748b; font-size:10px; font-weight:700; text-transform:uppercase;">Active Web Crawler</div>
+            <div style="color:#64748b; font-size:10px; font-weight:700; text-transform:uppercase;">Live Tax Ingestion</div>
             <div style="color:{'#34d399' if vectorstore_link else '#f43f5e'}; font-size:14px; font-weight:700; margin-top:2px;">
-                {'ClearTax Live Sync' if vectorstore_link else 'Web Loader Standby'}
+                {'ClearTax Live Feed' if vectorstore_link else 'Web Sync Standby'}
             </div>
         </div>
     """, unsafe_allow_html=True)
@@ -414,38 +406,38 @@ with st.sidebar:
 if selected_page == "Operations Hub":
     
     st.markdown("<h1 style='font-size:2.75rem; font-weight:900; letter-spacing:-0.04em; margin-bottom:5px; background:linear-gradient(90deg, #ffffff 0%, #38bdf8 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;'>Cognitive Operations Terminal</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color:#64748b; font-size:1rem; margin-bottom:35px;'>Deterministic Financial Engineering, Local Vector RAG (ChromaDB), and Dynamically Injected GST/Tax Compiling Pipeline</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#64748b; font-size:1rem; margin-bottom:35px;'><strong>What this does:</strong> Autonomous Multi-Agent B2B Invoicing Framework & Localized Tax RAG. Extracts raw user requests to calculate exact regional Indian GST rules and programmatically renders vector-drawn PDF assets.</p>", unsafe_allow_html=True)
     
     # Ultra Pro Max KPI Rows
     st.markdown("""
         <div class="kpi-row">
             <div class="kpi-glow-card">
-                <div class="kpi-label">Neural Embedding Sub-Cluster</div>
-                <div class="kpi-number" style="color:#38bdf8;">HuggingFace: all-MiniLM-L6-v2</div>
+                <div class="kpi-label">Semantic Database Store</div>
+                <div class="kpi-number" style="color:#38bdf8;">ChromaDB Vector Index</div>
             </div>
             <div class="kpi-glow-card">
-                <div class="kpi-label">Isolated Vector Context Partition</div>
-                <div class="kpi-number" style="color:#c084fc;">ChromaDB Persistent Store</div>
+                <div class="kpi-label">Agent Orchestration</div>
+                <div class="kpi-number" style="color:#c084fc;">LangGraph ReAct Agent</div>
             </div>
             <div class="kpi-glow-card">
-                <div class="kpi-label">Deterministic Compilation Layer</div>
+                <div class="kpi-label">Deterministic Compilation</div>
                 <div class="kpi-number" style="color:#fde047;">ReportLab Canvas Engine</div>
             </div>
         </div>
     """, unsafe_allow_html=True)
 
-if "messages" not in st.session_state:
-        st.session_state["messages"] = [{"role": "ai", "content": "Operations Hub established. Ready to accept structural variable commands, raw business logs, or invoice matrix parameters."}]
-if "langchain_history" not in st.session_state:
+    if "messages" not in st.session_state:
+        st.session_state["messages"] = [{"role": "ai", "content": "Welcome to PocketCA Pro. Active Core Services:\n- **Data Ingestion Node:** Running unstructured data mapping.\n- **Knowledge Retrieval:** Processing policy vector RAG pipelines out of local partitions.\n- **Deterministic Calculation:** Resolving hallucination-free corporate tax and GST computations.\n- **Document Compilation:** Renders pixel-perfect PDF invoices directly to disk."}]
+    if "langchain_history" not in st.session_state:
         st.session_state["langchain_history"] = []
 
     # Print streams
-for msg in st.session_state["messages"]:
+    for msg in st.session_state["messages"]:
         with st.chat_message(msg["role"]):
             st.write(msg["content"])
 
     # Processing Input
-if user_query := st.chat_input("Dispatch command parameters to agent..."):
+    if user_query := st.chat_input("Dispatch task configurations to agent..."):
         with st.chat_message("user"):
             st.write(user_query)
         st.session_state["messages"].append({"role": "user", "content": user_query})
@@ -468,7 +460,7 @@ if user_query := st.chat_input("Dispatch command parameters to agent..."):
                             with open(pdf_file, "rb") as f:
                                 st.markdown("<div style='margin-top:20px; padding:4px; border-radius:12px;'>", unsafe_allow_html=True)
                                 st.download_button(
-                                    label="⚡ EXPORT DETERMINISTIC ENTERPRISE PDF ASSET",
+                                    label="📥 EXPORT AUDIT-COMPLIANT FINTECH VECTOR ASSET (PDF)",
                                     data=f,
                                     file_name=pdf_file,
                                     mime="application/pdf",
@@ -484,6 +476,6 @@ elif selected_page == "Telemetry Analytics":
     st.info("Performance loops, inference cost metrics, and embedding cluster indexes will monitor here.")
 
 elif selected_page == "Global Ledger Configurations":
-    st.markdown("## ⚙         Global Ledger Settings")
+    st.markdown("## ⚙️ Global Ledger Settings")
     st.text_input("Entity Identification Token (PAN)", value="STXXXXXXXXX")
     st.text_input("Default Institutional Code (GSTIN)", value="27AAAAA0000A1Z5")
