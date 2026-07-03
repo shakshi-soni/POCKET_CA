@@ -6,7 +6,7 @@ import glob
 import streamlit as st
 from streamlit_option_menu import option_menu
 from langchain_groq import ChatGroq
-from langchain_community.tools import DuckDuckGoSearchRun
+from langchain_community.tools import DuckDuckGoSearchResults
 from langchain_core.tools import tool
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from langgraph.prebuilt import create_react_agent
@@ -23,6 +23,9 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.pdfgen import canvas
 
+# ============================================================
+# 🌌 DEEP SPACE CYBERPUNK SAAS DESIGN SYSTEM (ULTRA PREMIUM)
+# ============================================================
 st.set_page_config(
     page_title="PocketCA Pro • Premium", 
     page_icon="👑", 
@@ -158,14 +161,15 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# API KEYS 
-
+# ============================================================
+# INITIALIZATION & MACHINE LAYERS
+# ============================================================
 if not os.getenv("GROQ_API_KEY") and "GROQ_API_KEY" in st.secrets:
     os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
 
 @st.cache_resource
 def initialize_engines():
-    embeddings = HuggingFaceEmbedembeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0.0)
     chroma_client = chromadb.PersistentClient(path="./chroma_db")
     
@@ -188,8 +192,9 @@ def initialize_engines():
 
 llm, vectorstore, vectorstore_link = initialize_engines()
 
-# TOOLS 
-
+# ============================================================
+# REPORTLAB HIGH-END MINIMALIST PDF GENERATOR 
+# ============================================================
 def generate_invoice(invoice_no, company_name, client_name, client_phone, client_email, client_address, items, payment_method="Bank Transfer", bank_name="", bank_account=""):
     filename = f"invoice_{invoice_no}.pdf"
     c = canvas.Canvas(filename, pagesize=A4)
@@ -288,6 +293,9 @@ def generate_invoice(invoice_no, company_name, client_name, client_phone, client
     c.save()
     return filename
 
+# ============================================================
+# AGENT TOOL SETS
+# ============================================================
 @tool
 def tax_saving(query: str) -> str:
     """Use this when user asks how to save tax, deductions, 80C, 80D, HRA, NPS."""
@@ -341,13 +349,16 @@ def invoice_generator(invoice_no: str, company_name: str, client_name: str, clie
 @tool
 def standard_lookup(query: str) -> str:
     """Fallback fallback search network."""
-    return DuckDuckGoSearchRun().run(query)
+    try:
+        search = DuckDuckGoSearchResults()
+        return search.run(query)
+    except Exception:
+        return "Search network currently resolving alternative routing."
 
-# TOOL CALLING 
-
+# ============================================================
+# AGENT INITIALIZATION WITH COGNITIVE INTERPRETATION BRAIN
+# ============================================================
 tools = [tax_saving, legal_section, gst_calculator, invoice_generator, standard_lookup]
-
-#SYSTEM PROMPT 
 
 agent_system_prompt = """You are Pocket CA Premium Elite. You have an advanced cognitive brain for parsing informal Indian business requests.
 
@@ -356,14 +367,15 @@ CRITICAL INSTRUCTIONS FOR REASONING:
 2. Clean up spellings: If the user says "lenga", map it to "Lehenga Choli" in the item description.
 3. Strict Tool Argument Rules: The `items` argument for `invoice_generator` MUST be a valid JSON array string containing structured dictionaries. 
    Example format: '[{"name": "Lehenga Choli", "price": 245000, "qty": 1}]'
-4. If fields like client_phone, client_email, or client_address are missing from the chat conversation, do not fail! Automate them with clean placeholders like "9999999999", "client@internal.me", and "In-Store Guest".
+4. If fields like invoice_no, client_name, client_phone, client_email, or client_address are missing from the chat conversation, do not fail! Automate them with clean placeholders like "INV-2026-999", "In-Store Guest", "9999999999", "client@internal.me", and "Counter Delivery".
 
 Execute with extreme professionalism, clean tabular outputs, and complete accuracy."""
 
 agent = create_react_agent(llm, tools, prompt=agent_system_prompt)
 
-# STREAMLIT SLIDEBAR
-
+# ============================================================
+# 🗺️ PREMIUM NAVIGATION CONTROL CORE
+# ============================================================
 with st.sidebar:
     st.markdown("<div style='padding:15px 0px; text-align:center;'><h2 style='color:#ffffff; font-weight:900; font-size:1.6rem; letter-spacing:-0.04em;'>👑 POCKETCA<span style='color:#38bdf8;'>.PRO</span></h2></div>", unsafe_allow_html=True)
     
@@ -381,6 +393,7 @@ with st.sidebar:
         }
     )
 
+    # DOWNLOAD PIPELINE CONSOLE CARD
     if "last_generated_pdf" in st.session_state and st.session_state["last_generated_pdf"]:
         pdf_file = st.session_state["last_generated_pdf"]
         if os.path.exists(pdf_file):
@@ -394,7 +407,8 @@ with st.sidebar:
                     mime="application/pdf",
                     use_container_width=True
                 )
-
+    
+    # AGENT CORE CAPABILITIES
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("<p style='font-size:0.7rem; font-weight:700; color:#38bdf8; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; padding-left:5px;'>AGENT CORE CAPABILITIES</p>", unsafe_allow_html=True)
     
@@ -416,7 +430,8 @@ with st.sidebar:
             <div style="color:#94a3b8; font-size:11px; margin-top:2px;">Compiles custom corporate vector graphics to system storage.</div>
         </div>
     """, unsafe_allow_html=True)
-
+    
+    # ADVANCED SYSTEM ARCHITECTURE METRICS (EXPANDED TO MAXIMUM ENTERPRISE DETAIL)
     st.markdown("<p style='font-size:0.7rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; padding-left:5px;'>SYSTEM ARCHITECTURE STATUS</p>", unsafe_allow_html=True)
     
     vector_status = '<span style="background-color:rgba(52,211,153,0.1); color:#34d399; padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700; border:1px solid rgba(52,211,153,0.2);">ONLINE</span>' if vectorstore else '<span style="background-color:rgba(244,63,94,0.1); color:#f43f5e; padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700; border:1px solid rgba(244,63,94,0.2);">OFFLINE</span>'
@@ -459,11 +474,15 @@ with st.sidebar:
         st.rerun()
     st.markdown("</div>", unsafe_allow_html=True)
 
+# ============================================================
+# ROUTER DISPLAY PAGE
+# ============================================================
 if selected_page == "AI Invoice Generator":
     
     st.markdown("<h1 style='font-size:2.75rem; font-weight:900; letter-spacing:-0.04em; margin-bottom:5px; background:linear-gradient(90deg, #ffffff 0%, #38bdf8 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;'>Cognitive Operations Terminal</h1>", unsafe_allow_html=True)
     st.markdown("<p style='color:#64748b; font-size:1rem; margin-bottom:35px;'><strong>What this does:</strong> Autonomous Multi-Agent B2B Invoicing Framework & Localized Tax RAG. Extracts raw user requests to calculate exact regional Indian GST rules and programmatically renders vector-drawn PDF assets.</p>", unsafe_allow_html=True)
-
+    
+    # Ultra Pro Max KPI Rows
     st.markdown("""
         <div class="kpi-row">
             <div class="kpi-glow-card">
@@ -486,12 +505,12 @@ if selected_page == "AI Invoice Generator":
     if "langchain_history" not in st.session_state:
         st.session_state["langchain_history"] = []
 
+    # Print streams
     for msg in st.session_state["messages"]:
         with st.chat_message(msg["role"]):
             st.write(msg["content"])
 
-# MAIN LOOP
-    
+    # Processing Input
     if user_query := st.chat_input("Dispatch task configurations to agent..."):
         with st.chat_message("user"):
             st.write(user_query)
@@ -501,11 +520,12 @@ if selected_page == "AI Invoice Generator":
         with st.chat_message("assistant"):
             with st.spinner("Processing optimization pipelines..."):
                 try:
-
+                    # Run agent loops
                     response = agent.invoke({"messages": st.session_state["langchain_history"][-10:]})
                     st.session_state["langchain_history"] = response["messages"]
                     agent_reply = response["messages"][-1].content
                     
+                    # Tool tracing ring for file detection back-binding
                     for msg in reversed(response["messages"]):
                         if hasattr(msg, "tool_calls") and msg.tool_calls:
                             for tc in msg.tool_calls:
@@ -518,6 +538,7 @@ if selected_page == "AI Invoice Generator":
                     st.write(agent_reply)
                     st.session_state["messages"].append({"role": "ai", "content": agent_reply})
                     
+                    # Synchronize the UI layer state variables immediately
                     st.rerun()
                     
                 except Exception as err:
