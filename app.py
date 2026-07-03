@@ -351,8 +351,25 @@ def standard_lookup(query: str) -> str:
     """Fallback fallback search network."""
     return DuckDuckGoSearchRun().run(query)
 
+
+# ============================================================
+# AGENT INITIALIZATION WITH COGNITIVE INTERPRETATION BRAIN
+# ============================================================
 tools = [tax_saving, legal_section, gst_calculator, invoice_generator, standard_lookup]
-agent = create_react_agent(llm, tools, prompt="You are Pocket CA Premium Elite. Use extreme professionalism, bold metric lists, and strict corporate formatting.")
+
+# Giving the agent a system brain to translate casual speech into structured parameters
+agent_system_prompt = """You are Pocket CA Premium Elite. You have an advanced cognitive brain for parsing informal Indian business requests.
+
+CRITICAL INSTRUCTIONS FOR REASONING:
+1. Convert text numbers to strict digits: "2.45 lakhs" = 245000, "1 lakh" = 100000, "50k" = 50000.
+2. Clean up spellings: If the user says "lenga", map it to "Lehenga Choli" in the item description.
+3. Strict Tool Argument Rules: The `items` argument for `invoice_generator` MUST be a valid JSON array string containing structured dictionaries. 
+   Example format: '[{"name": "Lehenga Choli", "price": 245000, "qty": 1}]'
+4. If fields like client_phone, client_email, or client_address are missing from the chat conversation, do not fail! Automate them with clean placeholders like "9999999999", "client@internal.me", and "In-Store Guest".
+
+Execute with extreme professionalism, clean tabular outputs, and complete accuracy."""
+
+agent = create_react_agent(llm, tools, prompt=agent_system_prompt)
 
 # ============================================================
 # 🗺️ PREMIUM NAVIGATION CONTROL CORE
