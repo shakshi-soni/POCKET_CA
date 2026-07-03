@@ -97,7 +97,7 @@ st.markdown("""
         margin-bottom: 0.5rem;
     }
     .kpi-number {
-        font-size: 1.75rem;
+        font-size: 1.35rem;
         font-weight: 800;
         letter-spacing: -0.02em;
         background: linear-gradient(90deg, #ffffff, #cbd5e1);
@@ -197,7 +197,7 @@ def generate_invoice(invoice_no, company_name, client_name, client_phone, client
     c = canvas.Canvas(filename, pagesize=A4)
     width, height = A4
 
-    # Crisp crisp minimalist layout mapping
+    # Crisp minimalist layout mapping
     c.setFillColor(colors.white)
     c.rect(0, 0, width, height, fill=1, stroke=0)
     
@@ -235,7 +235,7 @@ def generate_invoice(invoice_no, company_name, client_name, client_phone, client
     c.drawRightString(width - 50, height - 145, f"Invoice Ref: {invoice_no}")
     c.setFont("Helvetica", 9)
     c.setFillColor(colors.HexColor('#64748b'))
-    c.drawRightString(width - 50, height - 162, "Status: Unpaid / Due on Receipt")
+    c.drawRightString(width - 50, height - 162, "Status: Regulated Invoice Generated")
 
     # Table Architecture Definition
     table_top = height - 240
@@ -272,7 +272,7 @@ def generate_invoice(invoice_no, company_name, client_name, client_phone, client
         c.line(60, row_y - 6, width - 50, row_y - 6)
         row_y -= 22
 
-    # Math Compilation Positioning
+    # Math Computation Positioning
     row_y -= 15
     c.setFont("Helvetica-Bold", 11)
     c.setFillColor(colors.HexColor('#0f172a'))
@@ -380,16 +380,24 @@ with st.sidebar:
     )
     
     st.markdown("<br><br>", unsafe_allow_html=True)
-    st.markdown("<p style='font-size:0.7rem; font-weight:700; color:#475569; uppercase; letter-spacing:0.1em; margin-bottom:10px; padding-left:5px;'>SYSTEM ARCHITECTURE</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size:0.7rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; padding-left:5px;'>SYSTEM ARCHITECTURE</p>", unsafe_allow_html=True)
     
-    st.markdown("""
-        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:15px; border-radius:14px; margin-bottom:15px;">
+    st.markdown(f"""
+        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:15px; border-radius:14px; margin-bottom:12px;">
             <div style="color:#64748b; font-size:10px; font-weight:700; text-transform:uppercase;">Model Infrastructure</div>
-            <div style="color:#ffffff; font-size:14px; font-weight:700; margin-top:2px;">Llama 3.1 8B</div>
+            <div style="color:#ffffff; font-size:14px; font-weight:700; margin-top:2px;">ChatGroq Llama-3.1</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:15px; border-radius:14px; margin-bottom:12px;">
+            <div style="color:#64748b; font-size:10px; font-weight:700; text-transform:uppercase;">Vector Index Status</div>
+            <div style="color:{'#34d399' if vectorstore else '#f43f5e'}; font-size:14px; font-weight:700; margin-top:2px;">
+                {'ChromaDB Core Loaded' if vectorstore else 'ChromaDB Local Offline'}
+            </div>
         </div>
         <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:15px; border-radius:14px; margin-bottom:20px;">
-            <div style="color:#64748b; font-size:10px; font-weight:700; text-transform:uppercase;">Tax Jurisdiction</div>
-            <div style="color:#34d399; font-size:14px; font-weight:700; margin-top:2px;">FY 2026-27 (Active)</div>
+            <div style="color:#64748b; font-size:10px; font-weight:700; text-transform:uppercase;">Active Web Crawler</div>
+            <div style="color:{'#34d399' if vectorstore_link else '#f43f5e'}; font-size:14px; font-weight:700; margin-top:2px;">
+                {'ClearTax Live Sync' if vectorstore_link else 'Web Loader Standby'}
+            </div>
         </div>
     """, unsafe_allow_html=True)
     
@@ -405,39 +413,39 @@ with st.sidebar:
 # ============================================================
 if selected_page == "Operations Hub":
     
-    st.markdown("<h1 style='font-size:2.75rem; font-weight:900; letter-spacing:-0.04em; margin-bottom:5px; background:linear-gradient(90deg, #ffffff 0%, #94a3b8 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;'>Operations Hub</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color:#64748b; font-size:1rem; margin-bottom:35px;'>Premium Financial Engineering, Cross-Border PDF Assembly & Vector Extraction Node</p>", unsafe_allow_html=True)
+    st.markdown("<h1 style='font-size:2.75rem; font-weight:900; letter-spacing:-0.04em; margin-bottom:5px; background:linear-gradient(90deg, #ffffff 0%, #38bdf8 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;'>Cognitive Operations Terminal</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#64748b; font-size:1rem; margin-bottom:35px;'>Deterministic Financial Engineering, Local Vector RAG (ChromaDB), and Dynamically Injected GST/Tax Compiling Pipeline</p>", unsafe_allow_html=True)
     
     # Ultra Pro Max KPI Rows
     st.markdown("""
         <div class="kpi-row">
             <div class="kpi-glow-card">
-                <div class="kpi-label">Neural Knowledge Store</div>
-                <div class="kpi-number">ChromaDB Secure</div>
+                <div class="kpi-label">Neural Embedding Sub-Cluster</div>
+                <div class="kpi-number" style="color:#38bdf8;">HuggingFace: all-MiniLM-L6-v2</div>
             </div>
             <div class="kpi-glow-card">
-                <div class="kpi-label">Vector Sub-Clusters</div>
-                <div class="kpi-number">All-MiniLM-L6</div>
+                <div class="kpi-label">Isolated Vector Context Partition</div>
+                <div class="kpi-number" style="color:#c084fc;">ChromaDB Persistent Store</div>
             </div>
             <div class="kpi-glow-card">
-                <div class="kpi-label">Core PDF Engine</div>
-                <div class="kpi-number">ReportLab A4 v5</div>
+                <div class="kpi-label">Deterministic Compilation Layer</div>
+                <div class="kpi-number" style="color:#fde047;">ReportLab Canvas Engine</div>
             </div>
         </div>
     """, unsafe_allow_html=True)
 
-    if "messages" not in st.session_state:
+if "messages" not in st.session_state:
         st.session_state["messages"] = [{"role": "ai", "content": "Operations Hub established. Ready to accept structural variable commands, raw business logs, or invoice matrix parameters."}]
-    if "langchain_history" not in st.session_state:
+if "langchain_history" not in st.session_state:
         st.session_state["langchain_history"] = []
 
     # Print streams
-    for msg in st.session_state["messages"]:
+for msg in st.session_state["messages"]:
         with st.chat_message(msg["role"]):
             st.write(msg["content"])
 
     # Processing Input
-    if user_query := st.chat_input("Dispatch command parameters to agent..."):
+if user_query := st.chat_input("Dispatch command parameters to agent..."):
         with st.chat_message("user"):
             st.write(user_query)
         st.session_state["messages"].append({"role": "user", "content": user_query})
@@ -460,7 +468,7 @@ if selected_page == "Operations Hub":
                             with open(pdf_file, "rb") as f:
                                 st.markdown("<div style='margin-top:20px; padding:4px; border-radius:12px;'>", unsafe_allow_html=True)
                                 st.download_button(
-                                    label="⚡ EXPORT ULTRA PREMIUM PDF ASSET",
+                                    label="⚡ EXPORT DETERMINISTIC ENTERPRISE PDF ASSET",
                                     data=f,
                                     file_name=pdf_file,
                                     mime="application/pdf",
@@ -476,6 +484,6 @@ elif selected_page == "Telemetry Analytics":
     st.info("Performance loops, inference cost metrics, and embedding cluster indexes will monitor here.")
 
 elif selected_page == "Global Ledger Configurations":
-    st.markdown("## ⚙️ Global Ledger Settings")
+    st.markdown("## ⚙         Global Ledger Settings")
     st.text_input("Entity Identification Token (PAN)", value="STXXXXXXXXX")
     st.text_input("Default Institutional Code (GSTIN)", value="27AAAAA0000A1Z5")
