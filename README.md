@@ -83,8 +83,8 @@ Worth being explicit here, since it's a common point of confusion: PocketCA Pro 
 └──────┬──────────────────┬──────────────────┬──────────────────┘
        │                  │                  │
        ▼                  ▼                  ▼
-┌──────────────┐  ┌────────────────────┐ ┌─────────────────┐
-│ 🔢 GST       │  │ 📚 Chroma RAG    │  │ 🖨️PDF Generator│
+┌──────────────┐  ┌───────────────────┐  ┌─────────────────┐
+│ 🔢 GST       │  │ 📚 Chroma RAG    │  │🖨️PDF Generator  │
 │ Calculator   │  │ (policy lookup)   │  │ (ReportLab)     │
 │ (tools.py)   │  │                   │  │                 │
 │              │  │ tax_saving.pdf    │  │ Renders invoice │
@@ -161,26 +161,6 @@ Run the app:
 ```bash
 streamlit run app.py
 ```
-
-```markdown
-## 🗺️ Roadmap
-
-**Near-term**
-- [ ] **IGST support for inter-state transactions** — the calculator currently assumes intra-state (CGST+SGST split) by default. This is the biggest functional gap, since real B2B invoicing regularly crosses state lines.
-- [ ] **Persistent invoice history** — move transactions out of `st.session_state` into a lightweight local DB (SQLite is enough) so past invoices survive a page refresh or new session.
-- [ ] **Automated tests for the GST calculator** — edge cases like zero-rated items, rounding behavior, and malformed amount strings should be covered before this is called "tested."
-
-**Mid-term**
-- [ ] **Wire RAG into the calculator's decision path** — retrieval and calculation are currently separate systems. Using retrieved policy text to validate or flag a slab choice would make the RAG layer functionally justified, not just decorative.
-- [ ] **CSV/Excel export of ledger history** — lets a business hand off records to an actual accountant instead of screenshotting PDFs.
-- [ ] **Expanded regional term normalization** — build a tested phrase bank instead of relying on prompt instructions alone, so accuracy isn't just "works on demo inputs."
-
-**Later / stretch**
-- [ ] **Basic notice/deadline tracker** — informational only, not a filing tool: lets a user log a GST notice they received and set a reminder before the response deadline.
-- [ ] **Multi-user support with authentication** — needed if this is ever going to serve more than one business owner per deployment.
-- [ ] **Offline/self-hosted LLM fallback** — reduces dependency on Groq's free-tier rate limits.
-```
-
 ---
 
 ## ⚠️ Known Limitations
