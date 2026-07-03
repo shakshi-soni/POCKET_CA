@@ -68,32 +68,32 @@ Worth being explicit here, since it's a common point of confusion: PocketCA Pro 
 ![Architecture Diagram](assets/architecture_diag.png)
 
 ```
-┌─────────────────────────────────────────────────────────────┐
+┌───────────────────────────────────────────────────────────────┐
 │                     Streamlit Frontend                        │
 │              (custom CSS, sidebar, chat interface)            │
-└───────────────────────────┬─────────────────────────────────┘
+└───────────────────────────┬───────────────────────────────────┘
                              │
                              ▼
-┌─────────────────────────────────────────────────────────────┐
+┌───────────────────────────────────────────────────────────────┐
 │                  LangGraph ReAct Agent                        │
-│                 (Groq — Llama 3.1 8B)                          │
-│                                                                 │
+│                 (Groq — Llama 3.1 8B)                         │
+│                                                               │
 │   Reads conversation state → decides if a tool call is        │
 │   needed → invokes tool → reads tool output → responds        │
-└──────┬──────────────────┬──────────────────┬─────────────────┘
+└──────┬──────────────────┬──────────────────┬──────────────────┘
        │                  │                  │
        ▼                  ▼                  ▼
-┌─────────────┐  ┌──────────────────┐  ┌─────────────────┐
-│ 🔢 GST       │  │ 📚 Chroma RAG     │  │ 🖨️ PDF Generator │
-│ Calculator   │  │ (policy lookup)   │  │ (ReportLab)       │
-│ (tools.py)   │  │                   │  │                  │
-│              │  │ tax_saving.pdf    │  │ Renders invoice  │
-│ Deterministic│  │ → chunked →       │  │ to A4 canvas,    │
-│ tax-bracket  │  │ HuggingFace       │  │ saves to disk,   │
-│ math, no LLM │  │ embeddings        │  │ session_state    │
-│ involved     │  │ (all-MiniLM-L6-v2)│  │ picks up latest  │
-│              │  │ → ChromaDB        │  │ file via glob    │
-└─────────────┘  └──────────────────┘  └─────────────────┘
+┌──────────────┐  ┌────────────────────┐ ┌─────────────────┐
+│ 🔢 GST       │  │ 📚 Chroma RAG    │  │ 🖨️PDF Generator│
+│ Calculator   │  │ (policy lookup)   │  │ (ReportLab)     │
+│ (tools.py)   │  │                   │  │                 │
+│              │  │ tax_saving.pdf    │  │ Renders invoice │
+│ Deterministic│  │ → chunked →       │  │ to A4 canvas,   │
+│ tax-bracket  │  │ HuggingFace       │  │ saves to disk,  │
+│ math, no LLM │  │ embeddings        │  │ session_state   │
+│ involved     │  │ (all-MiniLM-L6-v2)│  │ picks up latest │
+│              │  │ → ChromaDB        │  │ file via glob   │
+└──────────────┘  └───────────────────┘  └─────────────────┘
 ```
 
 **How the pieces connect:**
@@ -162,6 +162,25 @@ Run the app:
 streamlit run app.py
 ```
 
+```markdown
+## 🗺️ Roadmap
+
+**Near-term**
+- [ ] **IGST support for inter-state transactions** — the calculator currently assumes intra-state (CGST+SGST split) by default. This is the biggest functional gap, since real B2B invoicing regularly crosses state lines.
+- [ ] **Persistent invoice history** — move transactions out of `st.session_state` into a lightweight local DB (SQLite is enough) so past invoices survive a page refresh or new session.
+- [ ] **Automated tests for the GST calculator** — edge cases like zero-rated items, rounding behavior, and malformed amount strings should be covered before this is called "tested."
+
+**Mid-term**
+- [ ] **Wire RAG into the calculator's decision path** — retrieval and calculation are currently separate systems. Using retrieved policy text to validate or flag a slab choice would make the RAG layer functionally justified, not just decorative.
+- [ ] **CSV/Excel export of ledger history** — lets a business hand off records to an actual accountant instead of screenshotting PDFs.
+- [ ] **Expanded regional term normalization** — build a tested phrase bank instead of relying on prompt instructions alone, so accuracy isn't just "works on demo inputs."
+
+**Later / stretch**
+- [ ] **Basic notice/deadline tracker** — informational only, not a filing tool: lets a user log a GST notice they received and set a reminder before the response deadline.
+- [ ] **Multi-user support with authentication** — needed if this is ever going to serve more than one business owner per deployment.
+- [ ] **Offline/self-hosted LLM fallback** — reduces dependency on Groq's free-tier rate limits.
+```
+
 ---
 
 ## ⚠️ Known Limitations
@@ -188,14 +207,17 @@ Being upfront about scope, since this is a learning project rather than a produc
 
 ---
 
-🙋‍♂️ About the Developer
-Built with ❤️ by [SHAKSHI SONI]
+## 🙋‍♂️ About the Developer
 
-I'm a developer passionate about building practical AI applications that solve real-world problems. This project explores agentic AI design — where an LLM doesn't just chat, but acts, by calling tools, remembering context, and making decisions autonomously.
-📫 Connect with me: LinkedIn
+Built with ❤️ by **[SHAKSHI SONI]**
 
-⭐ If you found this project interesting, please give it a star! It helps a lot.
+I'm a developer passionate about building practical AI applications that solve real-world problems. This project explores agentic AI design — where an LLM doesn't just chat, but *acts*, by calling tools, remembering context, and making decisions autonomously.
+---
 
-## 👤 Author
+📫 **Connect with me:**
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat&logo=linkedin)](https://linkedin.com/in/yourprofile)
 
-Built by [shakshi-soni](https://github.com/shakshi-soni) as part of ongoing work in agentic AI systems.
+
+<div align="center">
+
+**⭐ If you found this project interesting, please give it a star! It helps a lot.**
