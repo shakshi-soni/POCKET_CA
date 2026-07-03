@@ -340,7 +340,7 @@ def invoice_generator(invoice_no: str, company_name: str, client_name: str, clie
     sanitized_items.append({"name": "CGST (9.0%)", "price": total_gst / 2, "qty": 1})
     sanitized_items.append({"name": "SGST (9.0%)", "price": total_gst / 2, "qty": 1})
 
-    filename = generate_invoice(invoice_no=invoice_no, company_name=company_name, client_name=client_name, client_phone=client_phone, client_email=client_email, client_address=client_address, items=sanitized_items, payment_method=payment_method, bank_name=bank_name, bank_account=bank_account)
+    filename = generate_invoice(invoice_no=invoice_no, company_name=company_name, client_name=client_name, client_phone=client_phone, client_email=client_address, items=sanitized_items, payment_method=payment_method, bank_name=bank_name, bank_account=bank_account)
     
     st.session_state["last_generated_pdf"] = filename
     return f"SUCCESS: Invoice compiled perfectly as '{filename}'."
@@ -411,7 +411,7 @@ with st.sidebar:
         </div>
     """, unsafe_allow_html=True)
     
-    # SYSTEM STATE TELEMETRY - BELOW CAPABILITIES REMODEL
+    # ADVANCED SYSTEM ARCHITECTURE METRICS (EXPANDED TO MAXIMUM ENTERPRISE DETAIL)
     st.markdown("<p style='font-size:0.7rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; padding-left:5px;'>SYSTEM ARCHITECTURE STATUS</p>", unsafe_allow_html=True)
     
     vector_status = '<span style="background-color:rgba(52,211,153,0.1); color:#34d399; padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700; border:1px solid rgba(52,211,153,0.2);">ONLINE</span>' if vectorstore else '<span style="background-color:rgba(244,63,94,0.1); color:#f43f5e; padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700; border:1px solid rgba(244,63,94,0.2);">OFFLINE</span>'
@@ -419,17 +419,29 @@ with st.sidebar:
 
     st.markdown(f"""
         <div style="background:rgba(15,23,42,0.4); border:1px solid rgba(255,255,255,0.05); padding:14px; border-radius:14px; margin-bottom:20px;">
-            <div style="display:flex; justify-content:between; align-items:center; margin-bottom:10px; width:100%;">
-                <span style="color:#94a3b8; font-size:11px; font-weight:600; flex-grow:1;">Orchestration Engine</span>
+            <div style="display:flex; justify-content:between; align-items:center; margin-bottom:12px; width:100%;">
+                <span style="color:#94a3b8; font-size:11px; font-weight:600; flex-grow:1;">Orchestration State</span>
                 <span style="background-color:rgba(56,189,248,0.1); color:#38bdf8; padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700; border:1px solid rgba(56,189,248,0.2);">LANGGRAPH</span>
             </div>
-            <div style="display:flex; justify-content:between; align-items:center; margin-bottom:10px; width:100%;">
+            <div style="display:flex; justify-content:between; align-items:center; margin-bottom:12px; width:100%;">
+                <span style="color:#94a3b8; font-size:11px; font-weight:600; flex-grow:1;">Context Token Window</span>
+                <span style="color:#ffffff; font-size:11px; font-weight:700;">128K Max</span>
+            </div>
+            <div style="display:flex; justify-content:between; align-items:center; margin-bottom:12px; width:100%;">
                 <span style="color:#94a3b8; font-size:11px; font-weight:600; flex-grow:1;">Chroma VectorDB Node</span>
                 {vector_status}
             </div>
-            <div style="display:flex; justify-content:between; align-items:center; width:100%;">
+            <div style="display:flex; justify-content:between; align-items:center; margin-bottom:12px; width:100%;">
+                <span style="color:#94a3b8; font-size:11px; font-weight:600; flex-grow:1;">Embedding Dimensions</span>
+                <span style="color:#cbd5e1; font-size:11px; font-weight:700;">384-Dim HF</span>
+            </div>
+            <div style="display:flex; justify-content:between; align-items:center; margin-bottom:12px; width:100%;">
                 <span style="color:#94a3b8; font-size:11px; font-weight:600; flex-grow:1;">Live Policy Web-RAG</span>
                 {scraper_status}
+            </div>
+            <div style="display:flex; justify-content:between; align-items:center; width:100%;">
+                <span style="color:#94a3b8; font-size:11px; font-weight:600; flex-grow:1;">Canvas File Pipeline</span>
+                <span style="color:#a855f7; font-size:11px; font-weight:700;">ReportLab v4</span>
             </div>
         </div>
     """, unsafe_allow_html=True)
