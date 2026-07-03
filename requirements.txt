@@ -5,14 +5,21 @@ langchain-community
 langchain-groq
 groq
 langgraph
-chromadb
+chromadb>=0.4.15
 duckduckgo-search
 requests
 reportlab
 python-dotenv
 word2number
+sentence-transformers
+langchain-huggingface
+
+# --- CRITICAL BUG FIXES & COMPATIBILITY PINNING ---
 protobuf~=4.25.3
-chromadb>=0.4.15
 opentelemetry-api>=1.20.0
 opentelemetry-sdk>=1.20.0
 opentelemetry-proto>=1.20.0
+
+# --- WEBSCRAPING & DATA UTILITIES (For WebBaseLoader) ---
+beautifulsoup4
+pypdf
