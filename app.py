@@ -168,7 +168,7 @@ if not os.getenv("GROQ_API_KEY") and "GROQ_API_KEY" in st.secrets:
 @st.cache_resource
 def initialize_engines():
     embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-    llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0.0)
+    llm = ChatGroq(model="openai/gpt-oss-120b", temperature=0.0)
     chroma_client = chromadb.PersistentClient(path="./chroma_db")
     
     try:
